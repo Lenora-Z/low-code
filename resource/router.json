@@ -1,0 +1,147 @@
+{
+    "common": {
+        "platformName": "低代码平台",
+        "platform": "hto-lowcode"
+    },
+    "auths": [
+        {
+            "moduleName": "表单管理",
+            "module": "app",
+            "moduleRoute":"/app/form",
+            "auth":{
+                "/form/list": "表单列表",
+                "/form/list/main": "表单列表",
+                "/form/new": "新增表单",
+                "/form/detail": "表单详情",
+                "/form/edit": "编辑表单",
+                "/form/fields": "表单字段列表",
+                "/file/upload": "文件上传",
+                "/file/show": "文件预览",
+                "/form/copy": "表单复制",
+                "/form/list/collect":"获取表单页表单",
+                "/form/relation": "获取关联列表",
+                "/form/delete": "删除表单",
+                "/form/mapping":"流程绑定的所有表单",
+                "/form/table/columns":"列表控件字段列表"
+            }
+        },
+        {
+            "moduleName": "流程管理",
+            "module": "flow",
+            "moduleRoute":"/app/process",
+            "auth":{
+                "/flow/list": "流程列表",
+                "/flow/new": "新增流程",
+                "/flow/edit": "编辑流程",
+                "/flow/detail": "流程详情",
+                "/service/list/all":"外部服务列表",
+                "/flow/delete": "删除流程",
+                "/form/flow/button": "绑定流程的按钮列表",
+                "/service/params": "服务参数列表",
+                "/service/package": "代码包列表"
+            }
+        },
+        {
+            "moduleName": "消息管理",
+            "module": "flow_msg",
+            "moduleRoute":"/app/message",
+            "auth":{
+                "/flow/record": "流程消息列表",
+                "/flow/record/log": "流程消息日志输出"
+            }
+        },
+        {
+            "moduleName": "账户管理",
+            "module": "account",
+            "moduleRoute":"/app/account",
+            "auth":{
+                "/organization/list": "组织列表",
+                "/organization/new": "新增组织",
+                "/organization/edit": "编辑组织",
+                "/organization/delete": "删除组织",
+                "/organization/detail": "组织详情",
+                "/organization/config/role": "组织角色配置",
+                "/role/list": "角色列表",
+                "/role/new": "新增角色",
+                "/role/edit": "编辑角色",
+                "/role/delete": "删除角色",
+                "/role/detail": "角色详情",
+                "/user/list": "用户列表",
+                "/user/new": "新增用户",
+                "/user/edit": "编辑用户",
+                "/user/delete": "删除用户",
+                "/user/detail": "用户详情",
+                "/user/password/reset": "重置用户密码",
+                "/user/all": "获取全部用户",
+                "/route/list": "路由列表"
+            }
+        },
+        {
+            "moduleName": "应用发布",
+            "module": "app_publish",
+            "moduleRoute":"/app/appRelease",
+            "auth":{
+                "/map/bind": "绑定映射关系",
+                "/map/list": "已发布的映射关系",
+                "/service/list": "应用中使用到的外部服务",
+                "/service/param/bind": "配置外部服务参数依赖",
+                "/form/service/fields": "外部服务所需的表单字段",
+                "/version/publish": "发布应用"
+            }
+        },
+        {
+            "moduleName": "版本管理",
+            "module": "version",
+            "moduleRoute":"/app/version",
+            "auth":{
+                "/version/list": "应用历史版本",
+                "/version/online": "当前应用版本",
+                "/version/offline": "下线应用"
+            }
+        },
+        {
+            "moduleName": "应用设置",
+            "module": "setting",
+            "moduleRoute":"/app/setting",
+            "auth":{
+                "/app/edit": "编辑应用",
+                "/app/detail": "应用详情",
+                "/version/offline": "下线应用"
+            }
+        },
+        {
+            "moduleName": "工作台",
+            "module": "workbench",
+            "moduleRoute":"/workbench",
+            "auth":{
+                "/app/list": "应用列表",
+                "/app/new": "新增应用"
+            }
+        },
+        {
+            "moduleName": "数据表管理",
+            "module": "table",
+            "moduleRoute":"/app/table",
+            "auth":{
+                "/table/page": "分页获取数据表",
+                "/table/columns": "数据表字段列表",
+                "/table/relations": "数据表关联表列表",
+                "/table/relations/attr": "数据表关联",
+                "/table/model": "数据表模型",
+                "/table/list": "数据表列表",
+                "/table/relation/columns": "数据表关联表详情",
+                "/table/columns/type": "分类获取数据表字段列表",
+                "/table/meta": "数据表字段字典内容"
+            }
+        },
+        {
+            "moduleName": "导航栏管理",
+            "module": "navigation",
+            "moduleRoute":"/app/navigation",
+            "auth":{
+                "/nav/edit": "编辑导航",
+                "/nav/detail": "导航详情"
+            }
+        }
+    ]
+}

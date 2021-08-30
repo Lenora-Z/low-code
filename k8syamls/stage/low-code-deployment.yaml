@@ -1,0 +1,143 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: low-code-env-cm
+  namespace: stage
+data:
+  port: "8085"
+  configPath: ./conf/config.yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: low-code-file
+  namespace: stage
+data:
+  config.yaml: |
+    debug: true
+    jwt_secret: fieg0y-82bld
+    base_url: 192.168.3.47:32185
+    mysql:
+      ip: low-code-mysql-svc
+      user: root
+      password: 123456
+      port: 3306
+      db_name: stage-bpmn
+      max_idle: 10
+      max_open: 100
+      charset: utf8mb4
+      log_mode: true
+      loc: Asia/Shanghai
+    mongo:
+      ip: low-code-mongo-svc
+      user: stage-bpmn
+      password: 123456
+      port: 27017
+      db_name: stage-bpmn
+      max_idle: 10
+      max_open: 100
+    mysql_business:
+      ip: low-code-mysql-svc
+      user: root
+      password: 123456
+      port: 3306
+      db_name: stage_bpmn_app
+      max_idle: 10
+      max_open: 100
+      charset: utf8mb4
+      log_mode: true
+      loc: Asia/Shanghai
+
+    tritium:
+      api: hto-common-svc:7685
+      status: true
+
+    engine:
+      api: 192.168.3.47:31800
+
+    minio:
+      endpointIP: 192.168.3.47:31058
+      accessKeyID: AKIAIOSFODNN7EXAMPLE
+      secretAccessKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+
+    email_sender:
+        - sender: service@dataqin.com
+          password: 19WQ2PFqtGv2q245
+          smtp_addr: smtp.feishu.cn
+          smtp_port: 465
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: low-code
+  namespace: stage
+spec:
+  selector:
+    matchLabels:
+      app: low-code
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: low-code
+    spec:
+      containers:
+        - name: low-code
+          image: {{image}}
+          imagePullPolicy: IfNotPresent
+          command: ["./low-code"]
+          workingDir: /app
+          ports:
+            - containerPort: 8085
+          envFrom:
+            - configMapRef:
+                name: low-code-env-cm
+          volumeMounts:
+            - name: low-code-file
+              mountPath: /app/conf
+      volumes:
+        - name: low-code-file
+          configMap:
+            name: low-code-file
+            items:
+              - key: config.yaml
+                path: config.yaml
+
+
+---
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: low-code
+  namespace: stage
+spec:
+  schedule: "1 0 1 * *"
+  successfulJobsHistoryLimit: 1
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: cronjob-low-code
+              image: {{image}}
+              imagePullPolicy: IfNotPresent
+              command: ["./low-code", "--task=hrm_statistic"]
+              workingDir: /app
+              ports:
+                - containerPort: 8086
+              envFrom:
+                - configMapRef:
+                    name: low-code-env-cm
+              volumeMounts:
+                - name: low-code-file
+                  mountPath: /app/conf
+          restartPolicy: OnFailure
+          volumes:
+            - name: low-code-file
+              configMap:
+                name: low-code-file
+                items:
+                  - key: config.yaml
+                    path: config.yaml
+

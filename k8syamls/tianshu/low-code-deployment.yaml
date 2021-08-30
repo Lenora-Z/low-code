@@ -1,0 +1,87 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: low-code-env-cm
+  namespace: tianshu
+data:
+  port: "8085"
+  configPath: ./conf/config.yaml
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: low-code-file
+  namespace: tianshu
+data:
+  config.yaml: |
+    debug: true
+    jwt_secret: fieg0y-82bld
+    base_url: 192.168.3.47:32186
+    mysql:
+      ip: 192.168.3.47
+      user: root
+      password: 123456
+      port: 3306
+      db_name: tianshu-bpmn
+      max_idle: 10
+      max_open: 100
+      charset: utf8mb4
+      log_mode: true
+      loc: Asia/Shanghai
+    mongo:
+      ip: low-code-mongodb-svc
+      user: root
+      password: shuqinkeji
+      port: 27017
+      db_name: tianshu-dpmn
+      max_idle: 10
+      max_open: 100
+
+    tritium: 192.168.3.32:7685
+
+    engine:
+      api: 192.168.3.47:31800
+
+    minio:
+      endpointIP: 192.168.3.47:31058
+      accessKeyID: AKIAIOSFODNN7EXAMPLE
+      secretAccessKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: low-code
+  namespace: tianshu
+spec:
+  selector:
+    matchLabels:
+      app: low-code
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: low-code
+    spec:
+      containers:
+        - name: low-code
+          image: {{image}}
+#          image: tianshu-low-code-backend:v1
+          imagePullPolicy: IfNotPresent
+          command: ["./low-code"]
+          workingDir: /app
+          ports:
+            - containerPort: 8085
+          envFrom:
+            - configMapRef:
+                name: low-code-env-cm
+          volumeMounts:
+            - name: low-code-file
+              mountPath: /app/conf
+      volumes:
+        - name: low-code-file
+          configMap:
+            name: low-code-file
+            items:
+              - key: config.yaml
+                path: config.yaml
+

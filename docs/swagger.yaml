@@ -1,0 +1,5314 @@
+definitions:
+  application.Application:
+    properties:
+      app_hash:
+        description: 应用hash
+        type: string
+      created_at:
+        type: string
+      desc:
+        description: 应用描述
+        type: string
+      icon:
+        description: icon
+        type: string
+      id:
+        type: integer
+      name:
+        description: 应用名称
+        type: string
+      status:
+        description: 应用状态 0-未发布 1-上线 2-下线
+        type: integer
+      updated_at:
+        type: string
+      version_id:
+        description: 当前版本id
+        type: integer
+    type: object
+  data_db.ConditionItem:
+    properties:
+      column_name:
+        description: 字段名称
+        type: string
+      cond:
+        description: 条件 1-是/等于  2-否/不等于
+        type: integer
+      value:
+        description: 条件值
+        type: object
+    type: object
+  flow.Flow:
+    properties:
+      app_id:
+        description: 应用id
+        type: integer
+      assignee:
+        description: 处理用户
+        items:
+          type: integer
+        type: array
+      created_at:
+        type: string
+      desc:
+        description: 表单描述
+        type: string
+      id:
+        type: integer
+      is_delete:
+        description: 删除状态
+        type: boolean
+      is_online:
+        description: 是否已上线
+        type: boolean
+      json:
+        description: 工作流json
+        type: string
+      key:
+        description: bpmn中的流程key
+        type: string
+      name:
+        description: 流程名称
+        type: string
+      notifier:
+        description: 抄送人
+        items:
+          type: integer
+        type: array
+      number:
+        description: 流程号
+        type: string
+      service_group:
+        description: 使用到的服务集合
+        type: string
+      status:
+        description: 流程状态
+        type: boolean
+      updated_at:
+        type: string
+      user_id:
+        description: 用户id
+        type: integer
+      xml:
+        description: xml文件内容
+        type: string
+    type: object
+  flow.FlowMapping:
+    properties:
+      app_id:
+        description: 应用id
+        type: integer
+      created_at:
+        type: string
+      flow_id:
+        description: 流程id
+        type: integer
+      form_id:
+        description: 表单id
+        type: integer
+      id:
+        type: integer
+      random:
+        description: 随机数
+        type: string
+      relation:
+        description: 映射关系
+        type: string
+      status:
+        description: 状态值 0-未生效 1-已生效 2-已失效
+        type: integer
+      version_id:
+        description: 版本id
+        type: integer
+    type: object
+  form.FieldFormat:
+    properties:
+      id:
+        type: string
+      layers:
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+    type: object
+  form.FieldTableColumn:
+    properties:
+      datasource_column_id:
+        description: 表字段id
+        type: integer
+      datasource_column_relation_id:
+        description: 表字段关联表id,0表示本数据表字段
+        type: integer
+      field_id:
+        description: 控件id
+        type: integer
+      form_id:
+        description: 表单id
+        type: integer
+      id:
+        type: integer
+      is_condition:
+        description: 是否作为筛选条件 0-关闭 1-开启
+        type: boolean
+      show_name:
+        description: 表头显示名称
+        type: string
+    type: object
+  routing.RouterItem:
+    properties:
+      action_content:
+        description: 时间配置
+        type: string
+      action_type:
+        description: 事件类型
+        type: integer
+      children:
+        $ref: '#/definitions/routing.RouterItemList'
+        description: 子路由
+      editor:
+        type: boolean
+      formId:
+        description: 绑定的表单id
+        type: integer
+      icon:
+        type: string
+      id:
+        type: integer
+      key:
+        description: key值
+        type: string
+      order_num:
+        description: 排序号
+        type: integer
+      parentId:
+        type: string
+      title:
+        description: 路由名称
+        type: string
+    required:
+    - key
+    - title
+    type: object
+  routing.RouterItemList:
+    items:
+      $ref: '#/definitions/routing.RouterItem'
+    type: array
+  server.ApiResponse:
+    properties:
+      code:
+        description: 状态码
+        type: integer
+      message:
+        description: 状态短语
+        type: string
+      result:
+        description: 数据结果集
+        type: object
+    type: object
+  server.AppArg:
+    properties:
+      description:
+        description: 应用描述
+        type: string
+      icon:
+        description: 应用icon
+        type: string
+      name:
+        description: 应用名称
+        type: string
+    required:
+    - description
+    - icon
+    - name
+    type: object
+  server.AppListVO:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/application.Application'
+        type: array
+    type: object
+  server.AppUpdateArg:
+    properties:
+      description:
+        description: 应用描述
+        type: string
+      icon:
+        description: 应用icon
+        type: string
+      id:
+        type: integer
+      name:
+        description: 应用名称
+        type: string
+    required:
+    - description
+    - icon
+    - id
+    - name
+    type: object
+  server.ApplicationByHashArgs:
+    properties:
+      hash:
+        description: 应用hash
+        type: string
+    required:
+    - hash
+    type: object
+  server.ApplyDetail:
+    properties:
+      account:
+        description: 填写用户
+        type: string
+      assignee:
+        description: 处理人
+        type: string
+      created_at:
+        description: 填写时间
+        type: string
+      data:
+        additionalProperties: true
+        description: 表单提交数据
+        type: object
+      status:
+        description: 处理状态
+        type: integer
+      updated_at:
+        description: 处理时间
+        type: string
+      variables:
+        description: 处理参数
+        items:
+          additionalProperties: true
+          type: object
+        type: array
+    type: object
+  server.CallBpmnArg:
+    properties:
+      buttonName:
+        description: 按钮名称
+        type: string
+      data:
+        additionalProperties: true
+        description: 流程需要的数据     列表内为字段id:值；表单内为控件key:值
+        type: object
+      fieldName:
+        description: 按钮控件key/列表控件key
+        type: string
+      isInTable:
+        description: 是否为列表内的按钮
+        type: boolean
+    required:
+    - fieldName
+    - isInTable
+    type: object
+  server.CascadeArg:
+    properties:
+      data:
+        additionalProperties: true
+        description: 上一级信息(字段id:值)
+        type: object
+      fieldName:
+        description: 级联控件key
+        type: string
+    required:
+    - fieldName
+    type: object
+  server.ClientUserItem:
+    properties:
+      id:
+        description: 用户id
+        type: integer
+      true_name:
+        description: 真实姓名
+        type: string
+    type: object
+  server.ClientUserListVO:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/server.ClientUserItem'
+        type: array
+    type: object
+  server.DataCreateArg:
+    properties:
+      data:
+        additionalProperties: true
+        description: 数据对象  传递object,key为字段名称(string) value为数据值(泛型)
+        type: object
+      table_name:
+        description: 表名
+        type: string
+    required:
+    - table_name
+    type: object
+  server.DataUpdateArg:
+    properties:
+      condition:
+        description: 筛选条件
+        items:
+          items:
+            $ref: '#/definitions/data_db.ConditionItem'
+          type: array
+        type: array
+      data:
+        additionalProperties: true
+        description: 数据对象  传递object,key为字段名称(string) value为数据值(泛型)
+        type: object
+      table_name:
+        description: 表名
+        type: string
+    required:
+    - table_name
+    type: object
+  server.EmailVo:
+    properties:
+      content:
+        type: string
+      receiver:
+        items:
+          type: string
+        type: array
+      sender:
+        type: string
+      subject:
+        type: string
+    required:
+    - content
+    - sender
+    - subject
+    type: object
+  server.ExportArg:
+    properties:
+      fieldName:
+        description: 列表控件key
+        type: string
+      filter:
+        additionalProperties: true
+        description: 筛选字段及值
+        type: object
+    required:
+    - fieldName
+    type: object
+  server.FieldArg:
+    properties:
+      fieldName:
+        description: 控件key
+        type: string
+      rowId:
+        description: 行数据id
+        type: integer
+    required:
+    - fieldName
+    - rowId
+    type: object
+  server.FieldAttrItem:
+    properties:
+      config:
+        additionalProperties: true
+        type: object
+      id:
+        description: 控件id
+        type: integer
+      key:
+        description: 控件key
+        type: string
+      title:
+        description: 控件名称
+        type: string
+      type:
+        description: 控件类型
+        type: string
+    type: object
+  server.FlowArg:
+    properties:
+      desc:
+        description: 工作流描述
+        type: string
+      name:
+        description: 工作流名称
+        type: string
+    required:
+    - name
+    type: object
+  server.FlowButtons:
+    properties:
+      button_name:
+        description: 按钮名称
+        type: string
+      form_id:
+        description: 表单id
+        type: integer
+      form_name:
+        description: 表单名称
+        type: string
+    type: object
+  server.FlowEditArg:
+    properties:
+      desc:
+        description: 工作流描述
+        type: string
+      id:
+        type: integer
+      json:
+        type: string
+      name:
+        description: 工作流名称
+        type: string
+      status:
+        type: boolean
+    required:
+    - id
+    - name
+    type: object
+  server.FlowFormMap:
+    properties:
+      form_list:
+        description: 页面列表
+        items:
+          $ref: '#/definitions/server.FlowMappingVO'
+        type: array
+      table_list:
+        description: 列表控件列表
+        items:
+          $ref: '#/definitions/server.FlowMappingVO'
+        type: array
+    type: object
+  server.FlowItem:
+    properties:
+      id:
+        type: integer
+      name:
+        description: 流程名称
+        type: string
+      "no":
+        description: 流程编号
+        type: string
+      status:
+        description: 状态
+        type: boolean
+      update_time:
+        type: string
+      user:
+        description: 创建人
+        type: string
+    type: object
+  server.FlowListVO:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/server.FlowItem'
+        type: array
+    type: object
+  server.FlowMappingVO:
+    properties:
+      id:
+        description: 表单id
+        type: integer
+      name:
+        description: 表单名称
+        type: string
+      table_id:
+        description: 数据表id
+        type: integer
+    type: object
+  server.FormArg:
+    properties:
+      description:
+        description: 表单描述
+        type: string
+      footer:
+        $ref: '#/definitions/form.FieldFormat'
+        description: 底部配置
+      name:
+        description: 表单名称
+        type: string
+      page_type:
+        description: 页面类型 1-表单 2-展示页
+        type: integer
+      plugins:
+        description: 控件信息
+        items:
+          $ref: '#/definitions/form.FieldFormat'
+        type: array
+      source_table_id:
+        description: 数据表id
+        type: integer
+      status:
+        description: 表单状态
+        type: boolean
+      type:
+        description: 表单类型 1-标准表单 2-弹窗
+        type: integer
+    required:
+    - name
+    - page_type
+    - type
+    type: object
+  server.FormDetailVO:
+    properties:
+      app_id:
+        description: 应用id
+        type: integer
+      child:
+        additionalProperties:
+          $ref: '#/definitions/server.FormItemVO'
+        type: object
+      content:
+        description: 表单控件json
+        items:
+          type: integer
+        type: array
+      created_at:
+        type: string
+      datasource_table_id:
+        description: 数据表id
+        type: integer
+      desc:
+        description: 表单描述
+        type: string
+      footer:
+        $ref: '#/definitions/form.FieldFormat'
+      from:
+        description: 原表
+        type: integer
+      id:
+        type: integer
+      is_delete:
+        description: 删除状态 0-未删除 1-已删除
+        type: boolean
+      is_online:
+        description: 是否是上线表单 1-是
+        type: boolean
+      name:
+        description: 表单名称
+        type: string
+      number:
+        description: 表单编号
+        type: string
+      page_type:
+        description: 页面类型 1-表单 2-展示页
+        type: integer
+      plugins:
+        items:
+          $ref: '#/definitions/form.FieldFormat'
+        type: array
+      status:
+        description: 表单状态 0-未生效 1-已生效
+        type: boolean
+      type:
+        description: 表单类型 1-标准表单
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  server.FormEditArg:
+    properties:
+      description:
+        description: 表单描述
+        type: string
+      footer:
+        $ref: '#/definitions/form.FieldFormat'
+        description: 底部配置
+      id:
+        type: integer
+      name:
+        description: 表单名称
+        type: string
+      page_type:
+        description: 页面类型 1-表单 2-展示页
+        type: integer
+      plugins:
+        description: 控件信息
+        items:
+          $ref: '#/definitions/form.FieldFormat'
+        type: array
+      source_table_id:
+        description: 数据表id
+        type: integer
+      status:
+        description: 表单状态
+        type: boolean
+      type:
+        description: 表单类型 1-标准表单 2-弹窗
+        type: integer
+    required:
+    - id
+    - name
+    - page_type
+    - type
+    type: object
+  server.FormFieldArg:
+    properties:
+      field_id:
+        type: integer
+      form_id:
+        type: integer
+    type: object
+  server.FormItemVO:
+    properties:
+      app_id:
+        description: 应用id
+        type: integer
+      content:
+        description: 表单控件json
+        items:
+          type: integer
+        type: array
+      created_at:
+        type: string
+      datasource_table_id:
+        description: 数据表id
+        type: integer
+      desc:
+        description: 表单描述
+        type: string
+      footer:
+        $ref: '#/definitions/form.FieldFormat'
+      from:
+        description: 原表
+        type: integer
+      id:
+        type: integer
+      is_delete:
+        description: 删除状态 0-未删除 1-已删除
+        type: boolean
+      is_online:
+        description: 是否是上线表单 1-是
+        type: boolean
+      name:
+        description: 表单名称
+        type: string
+      number:
+        description: 表单编号
+        type: string
+      page_type:
+        description: 页面类型 1-表单 2-展示页
+        type: integer
+      plugins:
+        items:
+          $ref: '#/definitions/form.FieldFormat'
+        type: array
+      status:
+        description: 表单状态 0-未生效 1-已生效
+        type: boolean
+      type:
+        description: 表单类型 1-标准表单
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  server.FormListItem:
+    properties:
+      id:
+        type: integer
+      is_bound:
+        description: 是否有流程依赖
+        type: boolean
+      name:
+        description: 表单名称
+        type: string
+      "no":
+        description: 表单编号
+        type: string
+      page_type:
+        description: 页面类型
+        type: integer
+      status:
+        description: 表单状态
+        type: boolean
+      type:
+        description: 表单类型
+        type: integer
+      update_time:
+        type: string
+    type: object
+  server.FormListVO:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/server.FormListItem'
+        type: array
+    type: object
+  server.FormdataArg:
+    properties:
+      data:
+        additionalProperties: true
+        description: 要提交的数据 控件key:值
+        type: object
+      id:
+        description: 本表单id
+        type: integer
+    required:
+    - data
+    - id
+    type: object
+  server.IdStruct:
+    properties:
+      id:
+        type: integer
+    required:
+    - id
+    type: object
+  server.LogItem:
+    properties:
+      end_time:
+        description: 结束时间
+        type: string
+      flow_name:
+        description: 流程名称
+        type: string
+      flow_number:
+        description: 流程编号
+        type: string
+      process_definition_key:
+        description: 流程key
+        type: string
+      process_instance_id:
+        description: 实例id/实例编号
+        type: string
+      start_time:
+        description: 开始时间
+        type: string
+      state:
+        description: 状态
+        type: string
+    type: object
+  server.LogListVO:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/server.LogItem'
+        type: array
+    type: object
+  server.MetaListVO:
+    properties:
+      column_id:
+        description: 字段id
+        type: integer
+      group:
+        description: 组名
+        type: string
+      key:
+        description: 键名
+        type: string
+      value:
+        description: 键值
+        type: string
+    type: object
+  server.MobileArg:
+    properties:
+      content:
+        type: string
+      mobile:
+        type: string
+      useType:
+        type: integer
+    type: object
+  server.MonthVO:
+    properties:
+      dimission_num:
+        description: 离职
+        type: integer
+      entry_num:
+        description: 入职
+        type: integer
+      month:
+        description: 月份
+        type: integer
+    type: object
+  server.NewRelyArg:
+    properties:
+      random:
+        type: string
+      relation:
+        items:
+          $ref: '#/definitions/server.Relies'
+        type: array
+    type: object
+  server.NotifierTaskItem:
+    properties:
+      account:
+        description: 用户名
+        type: string
+      create_time:
+        description: 发起时间
+        type: string
+      flow_name:
+        description: 流程名称
+        type: string
+      form_id:
+        description: 表单id
+        type: integer
+      form_name:
+        description: 表单名称
+        type: string
+      id:
+        description: 申请id
+        type: string
+      instance_id:
+        description: 实例id
+        type: string
+      process_definition_id:
+        description: 实例id  节点名称
+        type: string
+      status:
+        description: 处理状态 1待处理；2已处理
+        type: integer
+      user_id:
+        description: 用户id
+        type: object
+    type: object
+  server.NotifierTaskListVO:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/server.NotifierTaskItem'
+        type: array
+    type: object
+  server.OnlineVersionVO:
+    properties:
+      app_hash:
+        type: string
+      app_id:
+        description: 应用id
+        type: integer
+      created_at:
+        type: string
+      domain:
+        description: 应用域名
+        type: string
+      id:
+        type: integer
+      note:
+        description: 版本介绍
+        type: string
+      status:
+        description: 状态值
+        type: integer
+      updated_at:
+        type: string
+      version:
+        description: 版本号
+        type: string
+    type: object
+  server.Option:
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+    type: object
+  server.OrgDetail:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      roles:
+        description: 角色id集合
+        items:
+          type: integer
+        type: array
+    type: object
+  server.OrgItem:
+    properties:
+      app_id:
+        description: 应用id
+        type: integer
+      child:
+        items:
+          $ref: '#/definitions/server.OrgItem'
+        type: array
+      created_at:
+        type: string
+      id:
+        type: integer
+      is_delete:
+        description: 是否删除
+        type: boolean
+      name:
+        description: 组织名称
+        type: string
+      parent_id:
+        description: 副组织id
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  server.OrgRoleArg:
+    properties:
+      id:
+        type: integer
+      roles:
+        items:
+          type: integer
+        type: array
+    required:
+    - id
+    - roles
+    type: object
+  server.OrganizationArg:
+    properties:
+      name:
+        type: string
+      parent_id:
+        type: integer
+    required:
+    - name
+    type: object
+  server.OrganizationEditArg:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    required:
+    - name
+    type: object
+  server.PackageItem:
+    properties:
+      id:
+        description: 代码包id
+        type: integer
+      name:
+        description: 代码包名称
+        type: string
+      params:
+        description: 代码包出参
+        items:
+          $ref: '#/definitions/service.Param'
+        type: array
+    type: object
+  server.Permission:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  server.RelatedFieldArg:
+    properties:
+      fieldName:
+        description: 关联记录控件key
+        type: string
+      filter:
+        additionalProperties: true
+        description: 查询条件(表字段id:值)
+        type: object
+    required:
+    - fieldName
+    type: object
+  server.RelatedForm:
+    properties:
+      field_name:
+        description: 控件名称
+        type: string
+      fields:
+        description: 字段集合
+        items:
+          $ref: '#/definitions/server.FieldAttrItem'
+        type: array
+      form_id:
+        description: 表单id
+        type: integer
+      name:
+        description: 表单名称
+        type: string
+    type: object
+  server.RelationArg:
+    properties:
+      random:
+        type: string
+      relation:
+        items:
+          $ref: '#/definitions/server.RelationItem'
+        type: array
+    required:
+    - random
+    - relation
+    type: object
+  server.RelationItem:
+    properties:
+      flow_id:
+        description: 流程id
+        type: integer
+      form_id:
+        description: 表单id
+        type: integer
+    required:
+    - flow_id
+    - form_id
+    type: object
+  server.Relies:
+    properties:
+      flow_id:
+        type: integer
+      param_id:
+        type: integer
+      relies:
+        items:
+          $ref: '#/definitions/server.FormFieldArg'
+        type: array
+      service_id:
+        type: integer
+    type: object
+  server.RoleArg:
+    properties:
+      name:
+        type: string
+      permissions:
+        additionalProperties:
+          items:
+            type: integer
+          type: array
+        type: object
+    required:
+    - name
+    - permissions
+    type: object
+  server.RoleDetail:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      permissions:
+        additionalProperties:
+          items:
+            type: integer
+          type: array
+        description: 权限id集合
+        type: object
+    type: object
+  server.RoleEditArg:
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      permissions:
+        additionalProperties:
+          items:
+            type: integer
+          type: array
+        type: object
+    required:
+    - id
+    - name
+    - permissions
+    type: object
+  server.RoleListItem:
+    properties:
+      app_id:
+        description: 应用id
+        type: integer
+      created_at:
+        type: string
+      id:
+        type: integer
+      is_delete:
+        description: 是否被删除
+        type: boolean
+      name:
+        description: 角色名
+        type: string
+      organization_group:
+        items:
+          type: string
+        type: array
+      permissions:
+        description: 角色权限
+        type: string
+      updated_at:
+        type: string
+    type: object
+  server.RoleListVO:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/server.RoleListItem'
+        type: array
+    type: object
+  server.RouteItem:
+    properties:
+      action:
+        description: 触发事件
+        type: integer
+      action_content:
+        description: 事件内容
+        type: string
+      app_id:
+        description: app id
+        type: integer
+      child:
+        items:
+          $ref: '#/definitions/server.RouteItem'
+        type: array
+      created_at:
+        type: string
+      form_id:
+        description: 对应的表单id
+        type: integer
+      icon:
+        description: 路由icon
+        type: string
+      id:
+        type: integer
+      key:
+        description: key值
+        type: string
+      nav_id:
+        description: 路由id
+        type: integer
+      order_num:
+        description: 排序号
+        type: integer
+      parent_id:
+        description: 父级路由
+        type: integer
+      status:
+        description: 生效状态 0-未生效 1-已生效
+        type: boolean
+      title:
+        description: 路由名称
+        type: string
+      updated_at:
+        type: string
+    type: object
+  server.RouterItem:
+    properties:
+      action:
+        description: 触发事件
+        type: integer
+      action_content:
+        description: 事件内容
+        type: string
+      app_id:
+        description: app id
+        type: integer
+      children:
+        description: 子路由
+        items:
+          $ref: '#/definitions/server.RouterItem'
+        type: array
+      created_at:
+        type: string
+      form_id:
+        description: 对应的表单id
+        type: integer
+      icon:
+        description: 路由icon
+        type: string
+      id:
+        type: integer
+      key:
+        description: key值
+        type: string
+      nav_id:
+        description: 路由id
+        type: integer
+      order_num:
+        description: 排序号
+        type: integer
+      parent_id:
+        description: 父级路由
+        type: integer
+      status:
+        description: 生效状态 0-未生效 1-已生效
+        type: boolean
+      title:
+        description: 路由名称
+        type: string
+      updated_at:
+        type: string
+    type: object
+  server.SignArg:
+    properties:
+      access_key:
+        description: access_key
+        type: string
+      method:
+        description: 请求方式
+        type: string
+      path:
+        description: 请求地址
+        type: string
+      secret_key:
+        description: secret_key
+        type: string
+    type: object
+  server.SignVO:
+    properties:
+      date:
+        description: 日期
+        type: string
+      rand:
+        description: 随机数
+        type: integer
+      signature:
+        description: 签名
+        type: string
+    type: object
+  server.SourceRelationItem:
+    properties:
+      source_column_name:
+        description: 源字段名称
+        type: string
+      target_column_name:
+        description: 目标字段名称
+        type: string
+      target_table_comment:
+        description: 目标表描述
+        type: string
+      target_table_name:
+        description: 目标表名称
+        type: string
+      type:
+        description: 关联类型.1-1对1，2-1对多,3-多对1,4-多对多
+        type: integer
+    type: object
+  server.SourceRelationItemAttrVO:
+    properties:
+      id:
+        type: integer
+      target_table_id:
+        description: 目标表id
+        type: integer
+      target_table_name:
+        description: 目标表名称
+        type: string
+    type: object
+  server.SourceRelationVO:
+    properties:
+      item:
+        $ref: '#/definitions/server.TableAttr'
+      relation:
+        items:
+          $ref: '#/definitions/server.SourceRelationItem'
+        type: array
+    type: object
+  server.StatisticVO:
+    properties:
+      education:
+        additionalProperties:
+          type: integer
+        description: key值  1:博士;2:硕士;3:本科;4:大专;5:大专以下
+        type: object
+      female:
+        description: 女
+        type: integer
+      for_entry:
+        description: 待入职
+        type: integer
+      informal:
+        description: 待转正
+        type: integer
+      male:
+        description: 男
+        type: integer
+      month:
+        description: 各月份
+        items:
+          $ref: '#/definitions/server.MonthVO'
+        type: array
+      to_be_left:
+        description: 待离职
+        type: integer
+      total:
+        description: 总人数
+        type: integer
+    type: object
+  server.TableAttr:
+    properties:
+      comment:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      schema:
+        type: string
+    type: object
+  server.TableColumnVO:
+    properties:
+      columns:
+        description: 字段列表
+        items:
+          $ref: '#/definitions/source.DatasourceColumn'
+        type: array
+      item:
+        $ref: '#/definitions/server.TableAttr'
+        description: 表详情
+    type: object
+  server.TableData:
+    properties:
+      data:
+        additionalProperties: true
+        description: 更新的字段及值
+        type: object
+      fieldName:
+        description: 控件key
+        type: string
+      rowId:
+        description: 行数据id
+        type: integer
+    required:
+    - data
+    - fieldName
+    - rowId
+    type: object
+  server.TableDataArg:
+    properties:
+      fieldName:
+        description: 列表控件key
+        type: string
+      filter:
+        additionalProperties: true
+        description: 筛选字段及值
+        type: object
+      limit:
+        description: 每页条数，默认为10
+        type: integer
+      page:
+        description: 展示第几页，默认为1
+        type: integer
+    required:
+    - fieldName
+    type: object
+  server.TableListPageVO:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/source.DatasourceTable'
+        type: array
+    type: object
+  server.TableModelVO:
+    properties:
+      columns:
+        description: 数据列
+        items:
+          $ref: '#/definitions/source.DatasourceColumn'
+        type: array
+      comment:
+        description: 表描述
+        type: string
+      id:
+        description: 表id
+        type: integer
+      name:
+        description: 表名称
+        type: string
+      relation_id:
+        description: 关联id 本表值为0
+        type: integer
+    type: object
+  server.TaskItem:
+    properties:
+      account:
+        description: 用户名
+        type: string
+      create_time:
+        description: 发起时间
+        type: string
+      flow_name:
+        description: 流程名称
+        type: string
+      form_id:
+        description: 表单id
+        type: integer
+      form_name:
+        description: 表单名称
+        type: string
+      id:
+        description: 申请id
+        type: string
+      instance_id:
+        description: 实例id
+        type: string
+      process_definition_id:
+        description: 实例id
+        type: string
+      status:
+        description: 处理状态 1待处理；2 已处理
+        type: integer
+      user_id:
+        description: 用户id
+        type: object
+    type: object
+  server.TaskListVO:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/server.TaskItem'
+        type: array
+    type: object
+  server.UserArg:
+    properties:
+      account:
+        type: string
+      group_id:
+        type: integer
+      mail:
+        type: string
+      mobile:
+        type: string
+      nickname:
+        type: string
+      true_name:
+        type: string
+    required:
+    - account
+    - group_id
+    - true_name
+    type: object
+  server.UserAttr:
+    properties:
+      account:
+        description: 账号
+        type: string
+      id:
+        type: integer
+      mail:
+        description: 邮箱
+        type: string
+      true_name:
+        description: 真实姓名
+        type: string
+    type: object
+  server.UserEditArg:
+    properties:
+      account:
+        type: string
+      group_id:
+        type: integer
+      id:
+        type: integer
+      mail:
+        type: string
+      mobile:
+        type: string
+      nickname:
+        type: string
+      true_name:
+        type: string
+    required:
+    - account
+    - group_id
+    - id
+    - true_name
+    type: object
+  server.UserInfoVO:
+    properties:
+      app_id:
+        description: 应用id
+        type: integer
+      app_name:
+        description: 应用名称
+        type: string
+      id:
+        description: 用户id
+        type: integer
+      mobile:
+        description: 手机号
+        type: string
+      nickname:
+        description: 昵称
+        type: string
+      organization_name:
+        description: 组织名称
+        type: string
+      true_name:
+        description: 真实姓名
+        type: string
+    type: object
+  server.UserListArg:
+    properties:
+      group_id:
+        description: 组织id
+        type: integer
+      limit:
+        description: 页容量
+        type: integer
+      name:
+        description: 用户名称
+        type: string
+      page:
+        description: 页码
+        type: integer
+      roles:
+        description: 角色集合
+        items:
+          type: integer
+        type: array
+    required:
+    - limit
+    - page
+    type: object
+  server.UserListItem:
+    properties:
+      account:
+        description: 账号/用户名
+        type: string
+      created_at:
+        description: 创建时间
+        type: string
+      group_name:
+        description: 组织
+        type: string
+      id:
+        type: integer
+      nickname:
+        description: 昵称
+        type: string
+      role_name:
+        description: 角色
+        items:
+          type: string
+        type: array
+      true_name:
+        description: 真实姓名
+        type: string
+      updated_at:
+        description: 更新时间
+        type: string
+    type: object
+  server.UserListVO:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/server.UserListItem'
+        type: array
+    type: object
+  server.UserLoginArg:
+    properties:
+      account:
+        type: string
+      app_hash:
+        type: string
+      password:
+        type: string
+    required:
+    - account
+    - app_hash
+    - password
+    type: object
+  server.UserPermission:
+    properties:
+      child:
+        items:
+          $ref: '#/definitions/server.Permission'
+        type: array
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+  server.UserPwdArg:
+    properties:
+      new_password:
+        type: string
+      old_password:
+        type: string
+    required:
+    - new_password
+    - old_password
+    type: object
+  server.VersionArg:
+    properties:
+      description:
+        type: string
+      domain:
+        type: string
+      random:
+        type: string
+      version:
+        type: string
+    type: object
+  server.VersionListVO:
+    properties:
+      count:
+        type: integer
+      list:
+        items:
+          $ref: '#/definitions/version.Version'
+        type: array
+    required:
+    - count
+    - list
+    type: object
+  server.VersionVO:
+    properties:
+      domain:
+        type: string
+      hash:
+        type: string
+    type: object
+  server.applyArg:
+    properties:
+      id:
+        type: string
+      instance_id:
+        description: 实例id
+        type: string
+      status:
+        description: 通过状态 0-不通过 1-通过
+        type: integer
+    type: object
+  service.Param:
+    properties:
+      check:
+        description: 是否必填
+        type: boolean
+      created_at:
+        type: string
+      default_value:
+        description: 默认值
+        type: string
+      fixed_value:
+        description: 固定值
+        type: string
+      id:
+        type: integer
+      is_visual:
+        description: 配置端是否可见 0-不可见 1-可见
+        type: boolean
+      mode:
+        description: 入/出参 1-入 2-出
+        type: integer
+      name:
+        description: 参数名称
+        type: string
+      service_id:
+        description: 服务id
+        type: integer
+      type:
+        description: 参数类型 1-string 2-uint 3-int 4-float 5-double 6-list
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  service.Service:
+    properties:
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        description: 服务名称
+        type: string
+      type:
+        description: 服务类型 1-上链服务 2-发送邮件 3-代码包
+        type: integer
+      updated_at:
+        type: string
+    type: object
+  source.DatasourceColumn:
+    properties:
+      app_id:
+        description: 应用id
+        type: integer
+      character_maximum_length:
+        description: 字段长度
+        type: integer
+      comment:
+        description: 字段备注
+        type: string
+      data_type:
+        description: 字段数据类型
+        type: string
+      field_type:
+        description: 控件类型
+        type: string
+      id:
+        type: integer
+      is_system_field:
+        description: 是否为系统字段0 不是系统字段 1是系统字段
+        type: boolean
+      name:
+        description: 字段名称
+        type: string
+      schemata_id:
+        description: 数据源id
+        type: integer
+      show_type:
+        description: '字段显示类型(业务类型) text:文本，num: 数字 date: 日期 radio:单选 checkbox:多选 user:成员
+          org:组织 relation: 关联 file: 文件'
+        type: string
+      table_name:
+        description: 数据表名称
+        type: string
+      table_schema:
+        description: 数据库名称
+        type: string
+    type: object
+  source.DatasourceTable:
+    properties:
+      app_id:
+        description: 应用id
+        type: integer
+      comment:
+        description: 数据库表备注
+        type: string
+      created_at:
+        description: 创建时间
+        type: string
+      id:
+        type: integer
+      name:
+        description: 数据表名称
+        type: string
+      schema:
+        description: 数据库名称
+        type: string
+      schemata_id:
+        description: 数据源id
+        type: integer
+    type: object
+  user.User:
+    properties:
+      account:
+        description: 账号
+        type: string
+      app_id:
+        description: 应用id
+        type: integer
+      created_at:
+        type: string
+      group_id:
+        description: 组织id
+        type: integer
+      id:
+        type: integer
+      is_delete:
+        description: 是否被删除 1-已删除
+        type: boolean
+      mail:
+        description: 邮箱
+        type: string
+      mobile:
+        description: 手机号
+        type: string
+      nickname:
+        description: 昵称
+        type: string
+      password:
+        description: 密码
+        type: string
+      pwd_status:
+        description: 1已重置
+        type: boolean
+      true_name:
+        description: 真实姓名
+        type: string
+      updated_at:
+        type: string
+    type: object
+  version.Version:
+    properties:
+      app_id:
+        description: 应用id
+        type: integer
+      created_at:
+        type: string
+      domain:
+        description: 应用域名
+        type: string
+      id:
+        type: integer
+      note:
+        description: 版本介绍
+        type: string
+      status:
+        description: 状态值
+        type: integer
+      updated_at:
+        type: string
+      version:
+        description: 版本号
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /:
+    get:
+      consumes:
+      - application/json
+      produces:
+      - application/json
+      responses:
+        "1000":
+          description: 请求成功
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+        "2001":
+          description: 用户凭证过期
+          schema:
+            type: string
+        "2002":
+          description: 用户错误
+          schema:
+            type: string
+        "2003":
+          description: 权限验证失败
+          schema:
+            type: string
+        "2004":
+          description: 不支持该操作
+          schema:
+            type: string
+        "3001":
+          description: 记录未找到
+          schema:
+            type: string
+        "3002":
+          description: 记录已存在
+          schema:
+            type: string
+        "3003":
+          description: 记录禁止修改
+          schema:
+            type: string
+        "3101":
+          description: 一个应用下只能存在一个生效的导航栏
+          schema:
+            type: string
+        "4000":
+          description: 请求失败
+          schema:
+            type: string
+        "4001":
+          description: 参数错误
+          schema:
+            type: string
+      summary: 返回码
+      tags:
+      - response
+  /api/apply/deal:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: applyArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.applyArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 处理申请
+      tags:
+      - apply
+  /api/apply/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: 页容量
+        in: query
+        name: limit
+        required: true
+        type: string
+      - description: 申请状态
+        in: query
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.TaskListVO'
+              type: object
+      summary: 申请列表
+      tags:
+      - apply
+  /api/apply/list/notifier:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: 页容量
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.NotifierTaskListVO'
+              type: object
+      summary: 抄送列表
+      tags:
+      - apply
+  /api/apply/notifier/param:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 流程id
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: 实例id
+        in: query
+        name: instance_id
+        required: true
+        type: string
+      - description: 流程状态(同列表)
+        in: query
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.ApplyDetail'
+              type: object
+      summary: 抄送流程的详情
+      tags:
+      - apply
+  /api/apply/param:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 申请id
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: 实例id
+        in: query
+        name: instance_id
+        required: true
+        type: string
+      - description: 状态值(同列表)
+        in: query
+        name: status
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.ApplyDetail'
+              type: object
+      summary: 申请要处理的参数
+      tags:
+      - apply
+  /api/apply/status:
+    get:
+      consumes:
+      - application/json
+      description: true-含有未处理  false-无未处理
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: boolean
+              type: object
+      summary: 是否含未处理任务
+      tags:
+      - apply
+  /api/file/upload:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 文件
+        in: body
+        name: file[]
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: 上传文件
+      tags:
+      - api/file
+  /api/flow/run:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: CallBpmnArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.CallBpmnArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 触发流程[new]
+      tags:
+      - client
+  /api/form:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 路由id
+        in: header
+        name: route-id
+        required: true
+        type: string
+      - description: 表单id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.FormDetailVO'
+              type: object
+      summary: 使用端表单结构详情
+      tags:
+      - client
+  /api/form/cascade:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: CascadeArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.CascadeArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 查询级联数据[new]
+      tags:
+      - client
+  /api/form/relate:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: RelatedFieldArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.RelatedFieldArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 查询关联记录的数据[new]
+      tags:
+      - client
+  /api/form/relate/detail:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: FieldArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.FieldArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 查询某条关联记录的详情数据[new]
+      tags:
+      - client
+  /api/form/submit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: FormdataArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.FormdataArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 提交表单数据[new]
+      tags:
+      - client
+  /api/form/table/delete:
+    delete:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: FieldArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.FieldArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 删除列表单条数据，仅删除列表关联的本数据表[new]
+      tags:
+      - client
+  /api/form/table/detail:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: FieldArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.FieldArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 查看列表单条数据详情，暂只显示列表关联的本数据表详情[new]
+      tags:
+      - client
+  /api/form/table/download:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: ExportArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.ExportArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 导出列表数据[new]
+      tags:
+      - client
+  /api/form/table/edit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: TableData
+        required: true
+        schema:
+          $ref: '#/definitions/server.TableData'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 修改列表单条数据，仅可修改列表关联的本数据表[new]
+      tags:
+      - client
+  /api/form/table/format:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: FieldArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.FieldArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 填充列表单条数据至表单格式[new]
+      tags:
+      - client
+  /api/form/table/list:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: TableDataArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.TableDataArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 筛选查看列表数据[new]
+      tags:
+      - client
+  /api/form/table/option/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 表字段id
+        in: query
+        name: columnId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.Option'
+                  type: array
+              type: object
+      summary: 查询列表控件上筛选字段的选项集[new]
+      tags:
+      - client
+  /api/hash:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 请求体
+        in: body
+        name: ApplicationByHashArgs
+        required: true
+        schema:
+          $ref: '#/definitions/server.ApplicationByHashArgs'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/application.Application'
+              type: object
+      tags:
+      - Application
+  /api/interface/call:
+    get:
+      consumes:
+      - application/json
+      description: 请求方法这里写作get，实际是可以各种请求方法；第三方接口的参数正常设置
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 第三方接口链接
+        in: query
+        name: redirect
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+      summary: 转发请求第三方接口
+      tags:
+      - interface
+  /api/nav:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.RouterItem'
+                  type: array
+              type: object
+      summary: 获取应用导航栏
+      tags:
+      - api/navigation
+  /api/organization/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.OrgItem'
+                  type: array
+              type: object
+      summary: 组织列表
+      tags:
+      - api/organization
+  /api/sms/send:
+    post:
+      consumes:
+      - application/json
+      description: 调用短信业务服务
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 请求体
+        in: body
+        name: MobileArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.MobileArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 发送短信
+      tags:
+      - client
+  /api/user/info:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.UserInfoVO'
+              type: object
+      summary: 用户信息
+      tags:
+      - client/user
+  /api/user/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 用户名称
+        in: query
+        name: name
+        type: string
+      - description: 组织id,多个用','分隔
+        in: query
+        name: org_id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.ClientUserListVO'
+              type: object
+      summary: 用户列表[update]
+      tags:
+      - client/user
+  /api/user/login:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用hash
+        in: header
+        name: app_hash
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: UserLoginArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.UserLoginArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: string
+              type: object
+      summary: 用户登录
+      tags:
+      - client/user
+  /api/user/password/reset:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: UserPwdArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.UserPwdArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 用户修改密码
+      tags:
+      - client/user
+  /api/user/permission:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: Bearer +token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.UserPermission'
+                  type: array
+              type: object
+      summary: 用户权限
+      tags:
+      - client/user
+  /app/detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/application.Application'
+              type: object
+      summary: 应用详情
+      tags:
+      - Application
+  /app/edit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 请求体
+        in: body
+        name: AppUpdateArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.AppUpdateArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 编辑应用
+      tags:
+      - Application
+  /app/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.AppListVO'
+              type: object
+      summary: 应用列表
+      tags:
+      - Application
+  /app/new:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 请求体
+        in: body
+        name: AppArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.AppArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 新增应用
+      tags:
+      - Application
+  /file/upload:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 图片编码格式(e.g.image/jpeg)
+        in: header
+        name: X-content-type
+        required: true
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 文件
+        in: body
+        name: file[]
+        required: true
+        schema:
+          type: object
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    type: string
+                  type: array
+              type: object
+      summary: 上传文件
+      tags:
+      - file
+  /flow/delete:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: id
+        in: body
+        name: IdStruct
+        required: true
+        schema:
+          $ref: '#/definitions/server.IdStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 流程删除[new]
+      tags:
+      - flow
+  /flow/detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 流程id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/flow.Flow'
+              type: object
+      summary: 流程详情
+      tags:
+      - flow
+  /flow/edit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: FlowEditArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.FlowEditArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 编辑流程[update]
+      tags:
+      - flow
+  /flow/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        type: string
+      - description: 页容量
+        in: query
+        name: limit
+        type: string
+      - description: 流程名称
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.FlowListVO'
+              type: object
+      summary: 流程列表[update]
+      tags:
+      - flow
+  /flow/new:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: FlowArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.FlowArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 新增流程[update]
+      tags:
+      - flow
+  /flow/record:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: 页容量
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.LogListVO'
+              type: object
+      summary: 流程消息列表
+      tags:
+      - flow
+  /flow/record/log:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 实例id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 流程消息日志
+      tags:
+      - flow
+  /form/delete:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: id
+        in: body
+        name: IdStruct
+        required: true
+        schema:
+          $ref: '#/definitions/server.IdStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 表单删除[new]
+      tags:
+      - form
+  /form/detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 表单id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.FormItemVO'
+              type: object
+      summary: 表单详情
+      tags:
+      - form
+  /form/edit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: FormEditArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.FormEditArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 编辑表单
+      tags:
+      - form
+  /form/fields:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 表单id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.FieldAttrItem'
+                  type: array
+              type: object
+      summary: 表单字段列表
+      tags:
+      - form
+  /form/flow/button:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 流程id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.FlowButtons'
+                  type: array
+              type: object
+      summary: 绑定流程的按钮列表[new]
+      tags:
+      - form
+  /form/list:
+    get:
+      consumes:
+      - application/json
+      description: 页码不传获取的为生效表单 传了页码则可分页获取全部表单
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        type: string
+      - description: 页容量
+        in: query
+        name: limit
+        type: string
+      - description: 表单分类 1-标准表单 2-弹窗
+        in: query
+        name: type
+        type: string
+      - description: 表单分类 1-表单 2-显示
+        in: query
+        name: page_type
+        type: string
+      - description: 表单名称
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.FormListVO'
+              type: object
+      summary: 表单列表[update]
+      tags:
+      - form
+  /form/list/collect:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 是否获取生效表单,否时不传或传空值,是时传递有效字符串即可
+        in: query
+        name: status
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.FormItemVO'
+                  type: array
+              type: object
+      summary: 获取表单页表单
+      tags:
+      - form
+  /form/mapping:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 流程id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.FlowFormMap'
+              type: object
+      summary: 流程绑定的所有表单[new]
+      tags:
+      - form
+  /form/new:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: FormArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.FormArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 新增表单[update]
+      tags:
+      - form
+  /form/relation:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 表单id
+        in: query
+        name: id
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.RelatedForm'
+                  type: array
+              type: object
+      summary: 获取关联列表
+      tags:
+      - field
+  /form/table/columns:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 列表控件id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/form.FieldTableColumn'
+                  type: array
+              type: object
+      summary: 列表控件字段列表[new]
+      tags:
+      - form
+  /hrm/statistic:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.StatisticVO'
+              type: object
+      summary: 获取hrm统计数据
+      tags:
+      - hrm
+  /map/bind:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: RelationArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.RelationArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 绑定表单流程映射
+      tags:
+      - maps
+  /map/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/flow.FlowMapping'
+                  type: array
+              type: object
+      summary: 已上线的映射关系
+      tags:
+      - maps
+  /nav/edit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: routing.RouterItemList
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/routing.RouterItem'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 编辑导航栏[update]
+      tags:
+      - navigation
+  /organization/config/role:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: OrgRoleArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.OrgRoleArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 组织角色配置
+      tags:
+      - organization
+  /organization/delete:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: IdStruct
+        required: true
+        schema:
+          $ref: '#/definitions/server.IdStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 删除组织
+      tags:
+      - organization
+  /organization/detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 组织id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.OrgDetail'
+              type: object
+      summary: 组织详情
+      tags:
+      - organization
+  /organization/edit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: OrganizationEditArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.OrganizationEditArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 编辑组织
+      tags:
+      - organization
+  /organization/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.OrgItem'
+                  type: array
+              type: object
+      summary: 组织列表
+      tags:
+      - organization
+  /organization/new:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: OrganizationArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.OrganizationArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 新增组织
+      tags:
+      - organization
+  /public/data/edit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 请求体
+        in: body
+        name: DataUpdateArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.DataUpdateArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 修改数据
+      tags:
+      - public
+  /public/data/new:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 请求体
+        in: body
+        name: DataCreateArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.DataCreateArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 新增数据
+      tags:
+      - public
+  /public/package/email:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 请求体
+        in: body
+        name: EmailVo
+        required: true
+        schema:
+          $ref: '#/definitions/server.EmailVo'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 发送邮件
+      tags:
+      - public
+  /public/package/filing:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 请求体
+        in: body
+        name: IdStruct
+        required: true
+        schema:
+          $ref: '#/definitions/server.IdStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 文件归档
+      tags:
+      - public
+  /public/package/sign:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 请求体
+        in: body
+        name: SignArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.SignArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.SignVO'
+              type: object
+      summary: 生成签名
+      tags:
+      - public
+  /role/delete:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: IdStruct
+        required: true
+        schema:
+          $ref: '#/definitions/server.IdStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 删除角色
+      tags:
+      - role
+  /role/detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 角色id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.RoleDetail'
+              type: object
+      summary: 角色详情
+      tags:
+      - role
+  /role/edit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: RoleEditArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.RoleEditArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 编辑角色
+      tags:
+      - role
+  /role/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        type: string
+      - description: 页容量
+        in: query
+        name: limit
+        type: string
+      - description: 角色名
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.RoleListVO'
+              type: object
+      summary: 角色列表
+      tags:
+      - role
+  /role/new:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: RoleArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.RoleArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 新增角色
+      tags:
+      - role
+  /route/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.RouteItem'
+                  type: array
+              type: object
+      summary: 路由列表(树形)
+      tags:
+      - route
+  /service/list/all:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/service.Service'
+                  type: array
+              type: object
+      summary: 服务列表(全部)
+      tags:
+      - service
+  /service/package:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.PackageItem'
+                  type: array
+              type: object
+      summary: 代码包列表
+      tags:
+      - service
+  /service/param/bind:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: NewRelyArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.NewRelyArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 服务参数依赖绑定
+      tags:
+      - service
+  /service/params:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 服务id,传0时获取全部服务
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: 入/出参   in/out
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/service.Param'
+                  type: array
+              type: object
+      summary: 服务参数列表
+      tags:
+      - service
+  /table/columns:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 表名
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: 0-仅获取字段列表 1-字段列表+表详情
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.TableColumnVO'
+              type: object
+      summary: 数据表字段列表[new]
+      tags:
+      - table
+  /table/columns/type:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 表名称
+        in: query
+        name: name
+        required: true
+        type: string
+      - description: 类型 1-获取可进行筛选的字段 2-时间类型字段
+        in: query
+        name: type
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/source.DatasourceColumn'
+                  type: array
+              type: object
+      summary: 数据表的字段字段列表(分类获取)[new]
+      tags:
+      - table
+  /table/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/source.DatasourceTable'
+                  type: array
+              type: object
+      summary: 数据表完整列表[new]
+      tags:
+      - table
+  /table/meta:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 字段id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.MetaListVO'
+                  type: array
+              type: object
+      summary: 数据表字段字典内容[new]
+      tags:
+      - table
+  /table/model:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 表id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.TableModelVO'
+                  type: array
+              type: object
+      summary: 数据表模型/本表及字表的所有数据[new]
+      tags:
+      - table
+  /table/page:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: 页容量
+        in: query
+        name: limit
+        required: true
+        type: string
+      - description: 表名/描述
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.TableListPageVO'
+              type: object
+      summary: 数据表列表(分页)[new]
+      tags:
+      - table
+  /table/relation/columns:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 表id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.TableModelVO'
+                  type: array
+              type: object
+      summary: 关联字段列表[new]
+      tags:
+      - table
+  /table/relations:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 表id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.SourceRelationVO'
+              type: object
+      summary: 数据表关联关系(数据表查看关联用)[new]
+      tags:
+      - table
+  /table/relations/attr:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 表id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.SourceRelationItemAttrVO'
+                  type: array
+              type: object
+      summary: 数据表关联关系(关联记录用)[new]
+      tags:
+      - table
+  /user/all:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 用户真实姓名
+        in: query
+        name: name
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  items:
+                    $ref: '#/definitions/server.UserAttr'
+                  type: array
+              type: object
+      summary: 全部用户[update]
+      tags:
+      - user
+  /user/delete:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: IdStruct
+        required: true
+        schema:
+          $ref: '#/definitions/server.IdStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 删除用户
+      tags:
+      - user
+  /user/detail:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 用户id
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/user.User'
+              type: object
+      summary: 用户详情
+      tags:
+      - user
+  /user/edit:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: UserEditArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.UserEditArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 编辑用户
+      tags:
+      - user
+  /user/list:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: UserListArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.UserListArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.UserListVO'
+              type: object
+      summary: 用户列表
+      tags:
+      - user
+  /user/new:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: UserArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.UserArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 新增用户
+      tags:
+      - user
+  /user/password/reset:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: IdStruct
+        required: true
+        schema:
+          $ref: '#/definitions/server.IdStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 用户密码重置
+      tags:
+      - user
+  /version/list:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 页码
+        in: query
+        name: page
+        required: true
+        type: string
+      - description: 页容量
+        in: query
+        name: limit
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.VersionListVO'
+              type: object
+      summary: 版本列表
+      tags:
+      - version
+  /version/offline:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: IdStruct
+        required: true
+        schema:
+          $ref: '#/definitions/server.IdStruct'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  type: object
+              type: object
+      summary: 版本下线
+      tags:
+      - version
+  /version/online:
+    get:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.OnlineVersionVO'
+              type: object
+      summary: 上线版本
+      tags:
+      - version
+  /version/publish:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 语言(zh/en),默认en
+        in: header
+        name: lang
+        type: string
+      - description: 应用id
+        in: header
+        name: app-id
+        required: true
+        type: string
+      - description: 请求体
+        in: body
+        name: VersionArg
+        required: true
+        schema:
+          $ref: '#/definitions/server.VersionArg'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/server.ApiResponse'
+            - properties:
+                result:
+                  $ref: '#/definitions/server.VersionVO'
+              type: object
+      summary: 发布新版本
+      tags:
+      - version
+swagger: "2.0"

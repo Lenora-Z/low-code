@@ -1,0 +1,7 @@
+.idea/
+gormstruct/
+build*
+task*
+app_test.go
+*.log
+

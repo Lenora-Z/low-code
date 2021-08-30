@@ -1,0 +1,21 @@
+kind: Endpoints
+apiVersion: v1
+metadata:
+  name: low-code-mysql-svc
+  namespace: ddo
+subsets:
+  - addresses:
+      - ip: 192.168.3.91
+    ports:
+      - port: 3306
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: low-code-mysql-svc
+  namespace: ddo
+spec:
+  type: NodePort
+  ports:
+    - port: 3306
+      targetPort: 3306

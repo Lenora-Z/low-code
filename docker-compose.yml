@@ -1,0 +1,35 @@
+version: '3'
+services:
+  lowCode:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql_lc
+    image: low-code:latest
+    environment:
+      # 指明程序使用的配置文件
+      configPath: ./conf/config.yaml
+      # 指明程序监听端口
+      port: 8085
+    volumes:
+      - ./conf/config.yaml:/app/conf/config.yaml
+    ports:
+      - 8085:8085
+    working_dir: /app
+    command: ./lowCode
+    restart: always
+
+
+  mysql_esad:
+    image: mysql:5.7
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bpmn
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    restart: always

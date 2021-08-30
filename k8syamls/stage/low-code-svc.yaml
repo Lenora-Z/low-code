@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: low-code-svc
+  namespace: stage
+spec:
+  type: NodePort
+  ports:
+    - port: 8085
+      targetPort: 8085
+      nodePort: 32185
+  selector:
+    app: low-code

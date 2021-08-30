@@ -1,0 +1,63 @@
+debug: true
+jwt_secret: fieg0y-82bld
+base_url: 192.168.8.124:8085
+mysql:
+#  ip: 192.168.4.108
+  ip: 192.168.3.47
+  user: root
+  password: 123456
+  port: 3306
+#  db_name: bpmn
+  db_name: default-bpmn
+  max_idle: 10
+  max_open: 100
+  charset: utf8mb4
+  log_mode: true
+  loc: Asia/Shanghai
+
+mongo:
+  ip: 192.168.3.48
+#  user: root
+#  password: shuqinkeji
+  user: dev-bpmn
+  password: 123456
+  port: 27017
+  db_name: dev-bpmn
+#  db_name: default-bpmn
+  max_idle: 10
+  max_open: 100
+mysql_business:
+  ip: 192.168.3.47
+  user: root
+  password: 123456
+  port: 3306
+  db_name: bpmn_app
+  max_idle: 10
+  max_open: 100
+  charset: utf8mb4
+  log_mode: true
+  loc: Asia/Shanghai
+
+tritium:
+  api: 192.168.3.22:7685
+  status: false
+
+engine:
+  api: 192.168.3.47:31800
+
+minio:
+  endpointIP: 192.168.3.47:31058
+  accessKeyID: AKIAIOSFODNN7EXAMPLE
+  secretAccessKey: wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY
+
+consul:
+  ip: 192.168.4.161
+  port: 8500
+skyWalking:
+  oap_server: 192.168.3.12:11800
+
+email_sender:
+    - sender: service@dataqin.com
+      password: 19WQ2PFqtGv2q245
+      smtp_addr: smtp.feishu.cn
+      smtp_port: 465
